@@ -19,6 +19,7 @@ app.use('/contact', contactRoute);
 
 //default home page
 app.get('/', (req, res) => {
+    logger.info('Go to default homepage ');
     res.send('Coffee Station home page');
 })
 
