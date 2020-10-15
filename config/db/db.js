@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
+require('dotenv').config({path: './config/.env'});
 
-const mlabURI = 'mongodb://huynhduckhoan:huynhduckhoan@ds129560.mlab.com:29560/user-api'
-const dbName = 'user-api';
+const mlabURI = process.env.DB_URL;
 
 const conn = mongoose.connect(
 	mlabURI, 

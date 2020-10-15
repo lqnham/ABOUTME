@@ -4,9 +4,10 @@ const logger = require('./config/logs/log') //Import logger with winston
 const db = require('./config/db/db') //Import DB using Mongo
 const userRoute = require('./routes/user') //Import routers user
 const contactRoute = require('./routes/contact') //Import routers contact
+require('dotenv').config({path: './config/.env'}); // import enviroment variables with custom path
 
 const app = express()
-const port =  process.env.PORT || 3000;
+const port =  process.env.PORT;
 
 //Process bodyparser
 app.use(bodyParser.json())
@@ -19,9 +20,8 @@ app.use('/contact', contactRoute);
 
 //default home page
 app.get('/', (req, res) => {
-    res.send('Coffee Station home page');
+    res.send('Coffee Station home page' + process.env.DB_URL);
 })
-
 
 
 //port listening
