@@ -21,3 +21,5 @@ body-parser: Để giải quyết những HTTP POST request trong express.js t�
 mongoose: là một thư viện ODM (Object Data Modeling) cho MongDB và Node.js, được sẻ dụng để chuyển các object (đối tượng) trong code thành những biểu diễn của những object này trong MongoDB.
 morgan: là mộtn công cụ logging tuyệt vời khi làm việc với HTTP server trong Node.js, là một middleware cho phép chúng ta dễ dàng log những request, error ra console.
 ```
+ 
+### This assigment i using winston instead morgan for logging
