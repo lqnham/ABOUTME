@@ -1,3 +1,4 @@
+const logger = require('../logs/log.js') //Import logger with winston
 const mongoose = require('mongoose');
 
 require('dotenv').config({path: './config/.env'});
@@ -9,10 +10,10 @@ const conn = mongoose.connect(
 	{ useNewUrlParser: true , useUnifiedTopology: true },
 	(error) => {
 		if(error){
-			console.log('Run at port: '+ mlabURI);
-			console.log("Error " + error);
+			logger.error('Run at port: '+ mlabURI);
+			logger.error("Error " + error);
 		}else{
-			console.log("Connected successfully to server")
+			logger.info("Connected successfully to server")
 		}
 });
 
