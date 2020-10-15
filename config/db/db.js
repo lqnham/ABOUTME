@@ -10,7 +10,7 @@ const conn = mongoose.connect(
 	{ useNewUrlParser: true , useUnifiedTopology: true },
 	(error) => {
 		if(error){
-			logger.error('Run fail at URL: '+ mlabURI);
+			logger.error(`Run fail at URL: ${mlabURI}`);
 			logger.error("Error " + error);
 		}else{
 			logger.info("Connected successfully to server")
