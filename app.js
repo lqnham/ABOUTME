@@ -4,7 +4,7 @@ const logger = require('./server/config/log/log') //Import logger with winston
 const db = require('./server/config/db/db') //Import DB using Mongo
 const userRoute = require('./server/routes/user') //Import routers user
 const contactRoute = require('./server/routes/contact') //Import routers contact
-require('dotenv').config({path: './server/config/.env'}); 
+require('dotenv').config({path: './server/config/dev.env'}); 
 
 const app = express()
 const PORT = process.env.PORT

@@ -1,7 +1,7 @@
 const logger = require('../log/log.js') //Import logger with winston
 const mongoose = require('mongoose');
 
-require('dotenv').config({path: './server/config/.env'});
+require('dotenv').config({path: './server/config/dev.env'});
 
 const mlabURI = process.env.DB_URL;
 
