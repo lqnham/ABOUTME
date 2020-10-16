@@ -1,10 +1,10 @@
 const express = require('express') //Import Express
 const bodyParser = require('body-parser') //Import json magical :D
-const logger = require('./config/log/log') //Import logger with winston
-const db = require('./config/db/db') //Import DB using Mongo
-const userRoute = require('./routes/user') //Import routers user
-const contactRoute = require('./routes/contact') //Import routers contact
-require('dotenv').config({path: './config/.env'}); 
+const logger = require('./server/config/log/log') //Import logger with winston
+const db = require('./server/config/db/db') //Import DB using Mongo
+const userRoute = require('./server/routes/user') //Import routers user
+const contactRoute = require('./server/routes/contact') //Import routers contact
+require('dotenv').config({path: './server/config/.env'}); 
 
 const app = express()
 const PORT = process.env.PORT

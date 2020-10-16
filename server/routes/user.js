@@ -8,7 +8,10 @@ var users = [
 ];
 
 router .get("/", async (req, res) => {
-	res.send('Users');
+	res.status(200).json({
+		message: 'Welcome to User',
+		obj: JSON.stringify(users)
+    });
 });
 
 router .post("/user", async (req, res) => {});

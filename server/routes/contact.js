@@ -2,7 +2,10 @@ const express = require("express");
 const router  = express.Router();
 
 router .get("/", async (req, res) => {
-	res.send('Contact');
+	res.status(200).json({
+		message: 'Welcome to Contact'
+		
+    });
 });
 
 
