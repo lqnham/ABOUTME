@@ -23,3 +23,16 @@ morgan: là mộtn công cụ logging tuyệt vời khi làm việc với HTTP s
 ```
  
 ### This assigment i using winston instead morgan for logging
+
+```
+    "body-parser": "^1.19.0",
+    "celebrate": "^13.0.3", //API validate
+    "dotenv": "^8.2.0", // Provide enviroment variable and hide sensitve data
+    "eslint": "^7.11.0", // Support style 
+    "express": "^4.17.1", //EXpress framework
+    "mongoose": "^5.10.9", //Connect DB mongoDB
+    "mongoose-auto-increment": "^5.0.1", //Auto increase index
+    "nodemon": "^2.0.5", //Auto restart engine after change file
+    "winston": "^3.3.3", //logging
+    "winston-daily-rotate-file": "^4.5.0" //Seperate file log
+```

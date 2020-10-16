@@ -1,4 +1,4 @@
-const logger = require('../logs/log.js') //Import logger with winston
+const logger = require('../log/log.js') //Import logger with winston
 const mongoose = require('mongoose');
 
 require('dotenv').config({path: './config/.env'});
