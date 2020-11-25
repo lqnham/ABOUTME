@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+      var googleUser = {};
+      var startApp = function() {
+        gapi.load('auth2', function(){
+          auth2 = gapi.auth2.init({
+            client_id: '270015506491-npv4lvvl7ovheudn216i0o5vrm2mrngn.apps.googleusercontent.com',
+            cookiepolicy: 'single_host_origin',
+          });
+          
+        });
+      };
+
+      function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        alert(profile.getName);
+        alert(profile);
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+      }
+    </script>
+</head>
+<body>
+
+<div class="container">
+  <div class="g-signin2" data-onsuccess="onSignIn" ></div> 
+</div>
+
+<div id="name"></div>
+<script>startApp();</script>
+</body>
+</html>
