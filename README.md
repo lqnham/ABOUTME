@@ -1,4 +1,11 @@
 # ABOUTME
+
+
+## Run the node server
+```
+node app.js
+```
+
 ## Building the app MERN to introduce myself
 
 ```

@@ -21,8 +21,9 @@ app.use('/totp', totpToken);
 //default home page
 app.get('/', (req, res) => {
     logger.info('Go to default homepage ');
-    res.send('Coffee Station home page');
-})
+    //res.send('Coffee Station home page');
+    res.sendFile('login.html', { root: __dirname });
+});
 
 
 //port listening
