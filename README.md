@@ -6,6 +6,16 @@
 node app.js
 ```
 
+## Main API
+```
+http://localhost:3000/
+
+http://localhost:3000/users  -> for get users object
+http://localhost:3000/contact -> for eget basic information
+http://localhost:3000/totp -> For generate OPT 6 digitals to authenticator or whatever...
+```
+
+
 ## Building the app MERN to introduce myself
 
 ```
