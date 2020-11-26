@@ -22,7 +22,7 @@ app.use('/totp', totpToken);
 app.get('/', (req, res) => {
     logger.info('Go to default homepage ');
     //res.send('Coffee Station home page');
-    res.sendFile('login.html', { root: __dirname });
+    res.sendFile('loginFireBase.html', { root: __dirname });
 });
 
 
