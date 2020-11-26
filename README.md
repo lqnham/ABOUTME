@@ -12,7 +12,7 @@ node app.js
 
 ## Main API
 ```
-http://localhost:3000/
+http://localhost:3000/ -> Test Login page
 
 http://localhost:3000/users  -> for get users object
 http://localhost:3000/contact -> for eget basic information
