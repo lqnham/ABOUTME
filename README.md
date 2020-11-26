@@ -1,5 +1,9 @@
 # ABOUTME
 
+## Build node server
+```
+npm install
+```
 
 ## Run the node server
 ```
