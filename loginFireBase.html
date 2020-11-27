@@ -29,21 +29,29 @@
 
         //firebase.auth().signInWithRedirect(provider); // refer use for mobile
 
-        //show popup dang nhapza
+        //show popup dang nhap
+        // A FCM Token/Instance ID token identifies an installation of a specific app on a specific device. It does not identify a specific user.
+        // An Auth ID token identifies a specific user of a specific app/project. It does not identify a specific device.
+        // The two tokens are quite different and serve different purposes, and the Authentication Admin SDK correctly fails to verify the FCM token.
         firebase.auth().signInWithPopup(provider).then(function(result) {
-            var token = result.credential.accessToken; //You can use it to access the Google API.
-            console.log("this is token: "+ token);
-            alert(token);
+            //FCM token(Instance token)
+            var token = result.credential.accessToken; //You can use it to access the Google API. 
             var user = result.user;
+            firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+                // Auth ID token 
+                console.log("this is token from Credential: "+ idToken);
+                
+            }).catch(function(error) {
+                alert(error);
+            });
+
+
         }).catch(function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;c
             var email = error.email;
             var credential = error.credential;
         });
-
-
-
         //chuyen den trang dang nhap nhu new tab.
         // firebase.auth().getRedirectResult().then(function(result) {
         //     if (result.credential) {
