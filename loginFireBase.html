@@ -3,7 +3,11 @@
 <head>
 
 </head>
-<body>   
+<body>
+    <div> <input type="button" value="Sign in google" id="googleSignin" onclick="googleSignin();"> </div>  
+    <div> Email: <label id="email"> </div>
+    <div> <input  disabled="disabled" type="button" value="Sign out google" id="googleSignout" onclick="googleSignout();"> </div> 
+
     <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase.js"></script>
     <script>
        var firebaseConfig = {
@@ -33,25 +37,53 @@
         // A FCM Token/Instance ID token identifies an installation of a specific app on a specific device. It does not identify a specific user.
         // An Auth ID token identifies a specific user of a specific app/project. It does not identify a specific device.
         // The two tokens are quite different and serve different purposes, and the Authentication Admin SDK correctly fails to verify the FCM token.
-        firebase.auth().signInWithPopup(provider).then(function(result) {
+        
+        function googleSignin() {
+
+            firebase.auth().signInWithPopup(provider).then(function(result) {
             //FCM token(Instance token)
             var token = result.credential.accessToken; //You can use it to access the Google API. 
             var user = result.user;
             firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
                 // Auth ID token 
                 console.log("this is token from Credential: "+ idToken);
+                var xhr = new XMLHttpRequest();
+                var url = "http://localhost:8090/api/v1/auth/sign-in-with-social";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        document.getElementById('email').innerHTML= xhr.responseText;
+                        document.getElementById("googleSignin").disabled = true;
+                        document.getElementById("googleSignout").disabled = false;
+                    } 
+                };
+                xhr.send(idToken);
                 
             }).catch(function(error) {
-                alert(error);
+                alert("Sign in fail: "+ error);
             });
 
 
-        }).catch(function(error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;c
-            var email = error.email;
-            var credential = error.credential;
-        });
+            }).catch(function(error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;c
+                var email = error.email;
+                var credential = error.credential;
+            });
+
+        }
+
+        function googleSignout() {
+            firebase.auth().signOut().then(function() {
+                document.getElementById("googleSignin").disabled = false;
+                document.getElementById("googleSignout").disabled = true;
+            }).catch(function(error) {
+                alert("Sign out fail: "+ error);
+            });
+        }
+
+        
         //chuyen den trang dang nhap nhu new tab.
         // firebase.auth().getRedirectResult().then(function(result) {
         //     if (result.credential) {
