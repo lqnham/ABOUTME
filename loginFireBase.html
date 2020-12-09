@@ -4,9 +4,13 @@
 
 </head>
 <body>
-    <div> <input type="button" value="Sign in google" id="googleSignin" onclick="googleSignin();"> </div>  
-    <div> Email: <label id="email"> </div>
-    <div> <input  disabled="disabled" type="button" value="Sign out google" id="googleSignout" onclick="googleSignout();"> </div> 
+    <div><input type="button" value="Sign in google" id="googleSignin" onclick="googleSignin();"> </div> <br/>
+    <div><input type="button" value="Sign in Facebook" id="facebookSignin" onclick="facebookSignin();"> </div><br/> 
+    <div><input type="button" value="Sign in Zalo" id="facebookSignin" onclick="zaloSignin();"> </div>
+    <div> Token from firebase: <label id="firebaseToken"> </div><br/>
+    <div> Return Token type: </div><div id="tokenType"></div><br/>
+    <div> Return accessToken: </div><div id="accessToken"></div><br/>
+    <div> Return refreshToken: </div><div id="refreshToken"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase.js"></script>
     <script>
@@ -25,12 +29,99 @@
         firebase.analytics();
        
        
-        var provider = new firebase.auth.GoogleAuthProvider();
-        //https://developers.google.com/identity/protocols/oauth2/scopes?authuser=1 reading scope s
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-        provider.addScope('https://www.googleapis.com/auth/contacts');
-        provider.addScope('https://www.googleapis.com/auth/cloud-platform');
 
+
+
+
+        var providerGoogle = new firebase.auth.GoogleAuthProvider();
+        //https://developers.google.com/identity/protocols/oauth2/scopes?authuser=1 reading scope s
+        providerGoogle.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        providerGoogle.addScope('https://www.googleapis.com/auth/contacts');
+        providerGoogle.addScope('https://www.googleapis.com/auth/cloud-platform');
+        providerGoogle.addScope('https://www.googleapis.com/auth/userinfo.profile');
+        providerGoogle.addScope('https://www.googleapis.com/auth/user.phonenumbers.read');
+        providerGoogle.addScope('https://www.googleapis.com/auth/user.addresses.read');
+        providerGoogle.addScope('https://www.googleapis.com/auth/user.birthday.read');
+        
+
+        //https://developers.facebook.com/docs/permissions/reference  reading scope
+        var providerFacaebook = new firebase.auth.FacebookAuthProvider();
+        providerFacaebook.addScope('user_birthday');
+        providerFacaebook.addScope('user_age_range');
+        providerFacaebook.addScope('user_gender');
+        providerFacaebook.addScope('user_hometown');
+        providerFacaebook.addScope('user_location');
+        providerFacaebook.addScope('email');
+        
+
+        function zaloSignin() {
+            var xhr = new XMLHttpRequest();
+                var idToken = "asdlkjaskjhiuahsdsajdgjg"
+                var url = "http://localhost:8090/api/v1/auth/sign-in-with-social";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+
+                }
+
+                var data = JSON.stringify(
+                    {   appClientId: "0094jfjfnc2djs.28ss-2usjs8", 
+                        appClientSecret: "ssfsks.skj2skjjsqopzc3" , 
+                        idToken: idToken ,
+                        providerType: "ZALO"  
+                    }); 
+            
+                xhr.send(data);
+        }
+
+
+
+        function facebookSignin() {
+
+            firebase.auth().signInWithPopup(providerFacaebook).then(function(result) {
+            //FCM token(Instance token)
+            var token = result.credential.accessToken; //You can use it to access the Facebook API. 
+            var user = result.user;
+            firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+                // Auth ID token 
+                document.getElementById('firebaseToken').innerHTML= idToken;
+                var xhr = new XMLHttpRequest();
+                var url = "http://localhost:8090/api/v1/auth/sign-in-with-social";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const reponse =  JSON.parse(xhr.responseText);
+                        document.getElementById('tokenType').innerHTML= reponse.tokenType;
+                        document.getElementById('accessToken').innerHTML= reponse.accessToken;
+                        document.getElementById('refreshToken').innerHTML= reponse.refreshToken;
+
+                    } 
+                };
+
+                var data = JSON.stringify(
+                    {   appClientId: "0094jfjfnc2djs.28ss-2usjs8", 
+                        appClientSecret: "ssfsks.skj2skjjsqopzc3" , 
+                        idToken: idToken ,
+                        providerType: "FIREBASE" 
+                    }); 
+            
+                xhr.send(data);
+                
+            }).catch(function(error) {
+                alert("GetToken fail: "+ error);
+            });
+
+
+            }).catch(function(error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;c
+                var email = error.email;
+                var credential = error.credential;n
+            });
+
+        } 
+        
         //firebase.auth().signInWithRedirect(provider); // refer use for mobile
 
         //show popup dang nhap
@@ -40,28 +131,40 @@
         
         function googleSignin() {
 
-            firebase.auth().signInWithPopup(provider).then(function(result) {
+            firebase.auth().signInWithPopup(providerGoogle).then(function(result) {
             //FCM token(Instance token)
             var token = result.credential.accessToken; //You can use it to access the Google API. 
             var user = result.user;
             firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
                 // Auth ID token 
-                console.log("this is token from Credential: "+ idToken);
+                document.getElementById('firebaseToken').innerHTML= idToken;
                 var xhr = new XMLHttpRequest();
                 var url = "http://localhost:8090/api/v1/auth/sign-in-with-social";
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
-                        document.getElementById('email').innerHTML= xhr.responseText;
+                        const reponse =  JSON.parse(xhr.responseText);
+                        document.getElementById('tokenType').innerHTML= reponse.tokenType;
+                        document.getElementById('accessToken').innerHTML= reponse.accessToken;
+                        document.getElementById('refreshToken').innerHTML= reponse.refreshToken;
+
                         document.getElementById("googleSignin").disabled = true;
                         document.getElementById("googleSignout").disabled = false;
                     } 
                 };
-                xhr.send(idToken);
+
+                var data = JSON.stringify(
+                    {   appClientId: "0094jfjfnc2djs.28ss-2usjs8", 
+                        appClientSecret: "ssfsks.skj2skjjsqopzc3" , 
+                        idToken: idToken ,
+                        providerType: "FIREBASE"  
+                    }); 
+            
+                xhr.send(data);
                 
             }).catch(function(error) {
-                alert("Sign in fail: "+ error);
+                alert("GetToken fail: "+ error);
             });
 
 
@@ -69,7 +172,7 @@
                 var errorCode = error.code;
                 var errorMessage = error.message;c
                 var email = error.email;
-                var credential = error.credential;
+                var credential = error.credential;n
             });
 
         }
